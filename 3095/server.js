@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const webserver = express();
 
-const variants = require('../variants');
+const variants = require('./variants');
 const port = 8480;
 
 let stats = {
