@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Node.js web projects architecture",
   "scripts": {
-    "livebuild": "nodemon 3095/server.js"
+    "livebuild": "nodemon 3095/server2.js"
   },
   "repository": {
     "type": "git",
