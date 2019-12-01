@@ -1,0 +1,39 @@
+<html lang="en">
+
+<head>
+    <title>Test</title>
+</head>
+
+<body>
+<h2 id="greet">Голосование</h2>
+<div id="root"></div>
+
+<div id="control">
+    <input type="button" value="Получить варианты" onclick="getVariants()">
+    <input type="button" value="Получить результаты" onclick="getStats()">
+</div>
+<h2>Результаты голосования</h2>
+<ul id="stats">
+    <li>Да, конечно: <small id="stat1"></small></li>
+    <li>Нет, конечно: <small id="stat2"></small></li>
+    <li>Не знаю, конечно: <small id="stat3"></small></li>
+</ul>
+
+<div>
+    <form>
+        <input type="hidden" name="save" value="html" />
+        <input type="submit" value="сохранить HTML" formaction="/save" formmethod="get">
+    </form>
+    <form>
+        <input type="hidden" name="save" value="json" />
+        <input type="submit" value="сохранить JSON" formaction="/save" formmethod="get">
+    </form>
+    <form>
+        <input type="hidden" name="save" value="xml" />
+        <input type="submit" value="сохранить XML" formaction="/save" formmethod="get">
+    </form>
+</div>
+<script src="test.js"></script>
+</body>
+
+</html>
