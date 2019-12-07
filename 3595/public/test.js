@@ -22,7 +22,7 @@ function updateStats(data) {
 }
 
 function getStats() {
-    fetch('/stats', {method: "POST", headers: {'Content-Type': 'application/json'}})
+    fetch('/stats', {method: "GET", headers: {'Content-Type': 'application/json'}})
         .then(response => response.json())
         .then( data => updateStats(data))
 }
@@ -32,4 +32,17 @@ function vote(id){
         .then(response => response.json())
         .then(data => updateStats(data))
 
+}
+
+function saveResults(type) {
+    let ct ='';
+    if (type === 'html' || type === 'xml'){
+        ct = `text/${type}`
+    } else {
+        ct = `application/json`
+    }
+
+    fetch(`/save?save=${type}`, {method: "GET", headers: {'Content-type': ct }})
+        .then(response => response.text())
+        .then(data => document.getElementById('result').innerText = data)
 }

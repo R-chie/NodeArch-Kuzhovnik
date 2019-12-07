@@ -19,19 +19,14 @@
     <li>Не знаю, конечно: <small id="stat3"></small></li>
 </ul>
 
+<div id="result">
+
+</div>
+
 <div>
-    <form>
-        <input type="hidden" name="save" value="html" />
-        <input type="submit" value="сохранить HTML" formaction="/save" formmethod="get">
-    </form>
-    <form>
-        <input type="hidden" name="save" value="json" />
-        <input type="submit" value="сохранить JSON" formaction="/save" formmethod="get">
-    </form>
-    <form>
-        <input type="hidden" name="save" value="xml" />
-        <input type="submit" value="сохранить XML" formaction="/save" formmethod="get">
-    </form>
+    <input type="submit" value="сохранить HTML" onclick="saveResults('html')">
+    <input type="submit" value="сохранить JSON" onclick="saveResults('json')">
+    <input type="submit" value="сохранить XML"  onclick="saveResults('xml')">
 </div>
 <script src="test.js"></script>
 </body>

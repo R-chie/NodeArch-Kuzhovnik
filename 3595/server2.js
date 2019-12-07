@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const webserver = express();
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 const statsFN = path.join(__dirname, 'stats.json');
 const variants = require('./variants');
 const stats = require('./stats');
@@ -17,7 +18,15 @@ webserver.use(bodyParser.urlencoded({ extended: true }));
 
 
 webserver.get('/variants', (req, res) => res.send(variants));
-webserver.post('/stats', (req, res) => res.send(stats));
+webserver.get('/stats', (req, res) => {
+    let etag = createEtag(JSON.stringify(stats), 'sha256');
+    console.log(etag);
+    res.set({
+        'Cache-Control': 'public, max-age=0',
+        'ETag': etag
+    });
+    res.send(stats)
+});
 webserver.post('/vote', (req, res) => {
     const receivedVoteCode = req.body.vote;
     updateStats(receivedVoteCode);
@@ -28,19 +37,19 @@ webserver.get('/save' , (req, res) => {
     try {
         if(req.query.save === 'html'){
             console.log('save HTML');
-            res.setHeader("Content-Disposition", "'attachment; filename=\"results.html\"'");
+            //res.setHeader("Content-Disposition", "attachment; filename=\"results.html\"");
             res.setHeader("Content-Type", "text/html");
             res.send(`<div>results: <br> ${JSON.stringify(stats)}</div>`)
         }
         if(req.query.save === 'json'){
             console.log('save JSON');
-            res.setHeader("Content-Disposition", "'attachment; filename=\"results.json\"'");
+            //res.setHeader("Content-Disposition", "'attachment; filename=\"results.json\"'");
             res.setHeader("Content-Type", "application/json");
             res.send(stats)
         }
         if(req.query.save === 'xml'){
             console.log('save XML');
-            res.setHeader("Content-Disposition", "'attachment; filename=\"results.xml\"'");
+            //res.setHeader("Content-Disposition", "'attachment; filename=\"results.xml\"'");
             res.setHeader("Content-Type", "text/xml");
             res.send(js2xmlparser.parse( 'results',stats))
         }
@@ -53,8 +62,14 @@ webserver.get('/save' , (req, res) => {
 const updateStats = (receivedVoteCode) => {
     stats[receivedVoteCode] = +stats[receivedVoteCode] + 1;
     const statsFd = fs.openSync(statsFN, 'w');
-    fs.writeSync(statsFd, JSON.stringify( 'results',stats));
+    fs.writeSync(statsFd, JSON.stringify(stats));
     fs.closeSync(statsFd);
+};
+
+const createEtag = (data, alg) => {
+    const hash = crypto.createHash(alg);
+    hash.update(data);
+    return hash.digest('hex');
 };
 
 
