@@ -1,0 +1,15 @@
+.LogInForm {
+    width: 15%;
+    margin: 5% auto;
+}
+.LogInForm > form {
+    display: flex;
+    flex-direction: column;
+}
+.LogInForm > form > input {
+    padding: 10px;
+    margin: 5px;
+}
+.LogInForm .submit {
+    margin: 5px;
+}
