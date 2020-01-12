@@ -15,15 +15,9 @@ router.options('/login', cors(CORSOptions));
 router.post('/login',
     async (req, res) => {
         console.log('auth');
-        let qr = await sequelize.authenticate()
-            .then(() => {
-                console.log('Connection has been established successfully.');
-            })
-            .catch(err => {
-                console.error('Unable to connect to the database:', err);
-            });
-        console.log(qr)
-        res.json({ success: true , token: 'token'})
+        let qr = await sequelize.query('select * from orders_daily', {logging: console.log}).catch(e => console.log(e));
+        console.log(qr);
+        res.json({ success: true , token: 'token', qr: qr})
     });
 
 module.exports = router;
