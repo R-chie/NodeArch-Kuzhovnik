@@ -17,7 +17,7 @@ router.post('/login',
         console.log('auth');
         let qr = await sequelize.query('select * from orders_daily', {logging: console.log}).catch(e => console.log(e));
         console.log(qr);
-        res.json({ success: true , token: 'token', qr: qr})
+        res.json({ success: true , token: 'token', qr: qr[0]})
     });
 
 module.exports = router;
