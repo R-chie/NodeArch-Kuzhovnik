@@ -20,6 +20,10 @@ const User = DbService.define('user', {
 });
 
 const Token = DbService.define('token', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+    },
     jwt_key_id : {
         type : Sequelize.STRING
     },

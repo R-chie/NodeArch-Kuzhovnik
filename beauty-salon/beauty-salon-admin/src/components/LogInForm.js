@@ -26,10 +26,12 @@ class LogInForm extends React.PureComponent {
         let authdata = window.btoa(userdata.username + ':' + userdata.password);
         console.log(`auth data ${authdata} ---> try to auth`);
         let res = await authService.login(authdata).catch(e => console.log(e));
-        console.log(res)
+        console.log(res);
         if (res.success){
             localStorage.setItem('beauty_token', `Bearer ${res.token}`);
             events.emit('loggedIn');
+        } else {
+            console.log(res.message);
         }
     };
     render() {
