@@ -14,7 +14,7 @@ import './App.css';
 class App extends React.PureComponent {
 
   state = {
-    logged: false,
+    logged: true,
   };
 
   componentDidMount() {
