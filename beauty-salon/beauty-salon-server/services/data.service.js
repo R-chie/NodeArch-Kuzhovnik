@@ -1,4 +1,5 @@
 const Models = require('../models/models');
+const DbService = require('../services/db.service');
 
 class DataService {
     constructor(){}
@@ -11,6 +12,40 @@ class DataService {
         if (from === 'db'){
             return Models.User.findAll({raw:true, where:{login: incomingLogin}})
         }
+    }
+    static findUserById(from, id){
+        if (from === 'db'){
+            console.log('try to find ->>>>>>>>>>>>>> id ', id);
+            return Models.User.findAll({raw:true, where:{id: +id}})
+        }
+    }
+    static getOrders(from){
+        return new Promise( async resolve => {
+            if (from === 'db'){
+                let orders = {};
+                orders.daily = await Models.Daily.findAll({
+                    raw: true,
+                    attributes: ['id', 'time', 'service_id', 'master_id', 'status_id']
+                });
+                orders.daily = orders.daily.map( o => ({
+                    ...o,
+                    time: Math.round( o.time / 1000)
+                }));
+                orders.custom = await Models.Custom.findAll({raw: true});
+                orders.custom = orders.custom.map( o => ({
+                    ...o,
+                    time: Math.round( o.time / 1000)
+                }));
+                orders.random = await Models.Random.findAll({raw: true});
+                orders.random = orders.random.map( o => ({
+                    ...o,
+                    time: Math.round( o.time / 1000)
+                }));
+
+                return resolve(orders);
+            }
+        });
+
     }
     static async updateToken(from, token, tokenData){
         let data = {

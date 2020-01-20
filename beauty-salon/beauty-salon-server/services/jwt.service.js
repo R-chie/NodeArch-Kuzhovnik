@@ -14,10 +14,10 @@ class JwtService {
     static createStrategy(){
         return new Strategy(passportOpts, async (payload, done) => {
             /* verify error callback*/
-            let queryResult = await DbService.sendQuery(`SELECT users.user_id, users.status_id, role_permission.role FROM users JOIN role_permission ON users.role_id = role_permission.role_id WHERE users.user_id = '${payload.userId}'`);
-            if (queryResult.length !== 0){
-                let user = {...queryResult[0]};
-                done(null, user);
+            let user = await DataService.findUserById('db', payload.jti);
+            console.log(user);
+            if (user.length !== 0){
+                done(null, user[0]);
             } else {
                 done(new Error('User not found'), null)
             }

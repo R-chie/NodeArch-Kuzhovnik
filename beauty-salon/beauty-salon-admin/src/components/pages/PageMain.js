@@ -4,6 +4,7 @@ import {Column} from "primereact/column";
 import {Toolbar} from "primereact/toolbar";
 import {Button} from "primereact/button";
 import {Dialog} from "primereact/dialog";
+import ordersService from '../../services/ordersService';
 
 class PageMain extends React.PureComponent  {
     state = {
@@ -33,6 +34,8 @@ class PageMain extends React.PureComponent  {
     ];
 
     async componentDidMount() {
+        let orders = await ordersService.getOrders().catch(e => console.log(e))
+        console.log(orders)
     }
 
     componentWillUnmount() {

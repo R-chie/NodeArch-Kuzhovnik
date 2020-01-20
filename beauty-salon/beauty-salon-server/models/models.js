@@ -70,7 +70,7 @@ const Daily = DbService.define('daily_order', {
         type : Sequelize.INTEGER
     },
     status_id : {
-        type : Sequelize.INTEGER
+        type : Sequelize.STRING
     },
     master_id : {
         type: Sequelize.INTEGER
