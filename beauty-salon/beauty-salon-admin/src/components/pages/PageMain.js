@@ -9,7 +9,7 @@ import ordersService from '../../services/ordersService';
 class PageMain extends React.PureComponent  {
     state = {
         dailyOrders: [
-            { time: '9:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
+            /*{ time: '9:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
             { time: '10:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
             { time: '11:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
             { time: '12:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
@@ -20,26 +20,30 @@ class PageMain extends React.PureComponent  {
             { time: '17:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
             { time: '18:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
             { time: '19:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
-            { time: '20:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
+            { time: '20:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},*/
         ],
         customOrders: [],
         randomOrders: [],
         selectedOrders: [],
         newOrderVisible: false,
     };
-    orderTables = [
-        { name: "Ежедневные записи", value: this.state.dailyOrders },
-        { name: "Произвольные записи", value: this.state.customOrders },
-        { name: "Будущие записи", value: this.state.randomOrders },
-    ];
 
     async componentDidMount() {
-        let orders = await ordersService.getOrders().catch(e => console.log(e))
-        console.log(orders)
+        let orders = await ordersService.getOrders().catch(e => console.log(e));
+        orders.daily = this.processTime(orders.daily);
+        this.setState({
+            dailyOrders: orders.daily,
+            customOrders: orders.custom,
+            randomOrders: orders.random,
+        });
     }
 
     componentWillUnmount() {
     }
+
+    processTime = (arr) => {
+        return arr.map( el => ({...el, time: new Date(el.time * 1000).toLocaleTimeString()}))
+    };
 
     newOrder = () => {
         this.setState({newOrderVisible: true})
@@ -81,26 +85,54 @@ class PageMain extends React.PureComponent  {
                         </div>
                     </Toolbar>
                     <div className={'container p-col-12 p-lg-12'}>
-                        {this.orderTables.map( (table, index) => {
-                            return (
-                                <div key={`orderTable-${index}`}>
-                                    <h3> { table.name }</h3>
-                                    <DataTable
-                                        value={ table.value }
-                                        style={{margin: '5px'}}
-                                        selection={this.state.selectedOrders}
-                                        onSelectionChange={e => this.setState({selectedOrders: e.value})}
-                                        scrollable={true} scrollHeight="420px"
-                                    >
-                                        <Column selectionMode="multiple" style={{width:'45px'}}/>
-                                        <Column field={"time"} header={'Время'}/>
-                                        <Column field={"services"} header={'Услуга'}/>
-                                        <Column field={"master"} header={'Мастер'}/>
-                                        <Column field={"status"} header={'Статус'}/>
-                                    </DataTable>
-                                </div>
-                            )
-                        })}
+                            <div key={`orderTable-1`}>
+                                <h3> { 'Ежедневные записи' }</h3>
+                                <DataTable
+                                    value={ this.state.dailyOrders }
+                                    style={{margin: '5px'}}
+                                    selection={this.state.selectedOrders}
+                                    onSelectionChange={e => this.setState({selectedOrders: e.value})}
+                                    scrollable={true} scrollHeight="420px"
+                                >
+                                    <Column selectionMode="multiple" style={{width:'45px'}}/>
+                                    <Column field={"time"} header={'Время'}/>
+                                    <Column field={"services"} header={'Услуга'}/>
+                                    <Column field={"master"} header={'Мастер'}/>
+                                    <Column field={"status"} header={'Статус'}/>
+                                </DataTable>
+                            </div>
+                        <div key={`orderTable-2`}>
+                            <h3> { 'Произвольные записи' }</h3>
+                            <DataTable
+                                value={ this.state.customOrders }
+                                style={{margin: '5px'}}
+                                selection={this.state.selectedOrders}
+                                onSelectionChange={e => this.setState({selectedOrders: e.value})}
+                                scrollable={true} scrollHeight="420px"
+                            >
+                                <Column selectionMode="multiple" style={{width:'45px'}}/>
+                                <Column field={"time"} header={'Время'}/>
+                                <Column field={"services"} header={'Услуга'}/>
+                                <Column field={"master"} header={'Мастер'}/>
+                                <Column field={"status"} header={'Статус'}/>
+                            </DataTable>
+                        </div>
+                        <div key={`orderTable-3`}>
+                            <h3> { 'Будущие записи' }</h3>
+                            <DataTable
+                                value={ this.state.randomOrders }
+                                style={{margin: '5px'}}
+                                selection={this.state.selectedOrders}
+                                onSelectionChange={e => this.setState({selectedOrders: e.value})}
+                                scrollable={true} scrollHeight="420px"
+                            >
+                                <Column selectionMode="multiple" style={{width:'45px'}}/>
+                                <Column field={"time"} header={'Время'}/>
+                                <Column field={"services"} header={'Услуга'}/>
+                                <Column field={"master"} header={'Мастер'}/>
+                                <Column field={"status"} header={'Статус'}/>
+                            </DataTable>
+                        </div>
                     </div>
                 </div>
             </Fragment>

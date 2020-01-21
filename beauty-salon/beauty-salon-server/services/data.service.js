@@ -25,13 +25,18 @@ class DataService {
                 let orders = {};
                 orders.daily = await Models.Daily.findAll({
                     raw: true,
-                    attributes: ['id', 'time', 'service_id', 'master_id', 'status_id']
+                    attributes: [
+                        'id',
+                        'time',
+                        DbService.literal('(select name from services where services.id=daily_order.service_id) as services'),
+                        DbService.literal('(select name from masters where masters.id=daily_order.master_id) as master'),
+                        DbService.literal('(select name from dim_order_status where dim_order_status.id=daily_order.status_id) as status')],
                 });
                 orders.daily = orders.daily.map( o => ({
                     ...o,
                     time: Math.round( o.time / 1000)
                 }));
-                orders.custom = await Models.Custom.findAll({raw: true});
+                orders.custom = await Models.Custom.findAll({raw: true,});
                 orders.custom = orders.custom.map( o => ({
                     ...o,
                     time: Math.round( o.time / 1000)
