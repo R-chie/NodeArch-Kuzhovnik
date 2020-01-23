@@ -11,3 +11,35 @@ a {
 pre {
   font-size: 36px;
 }
+
+details {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  right: 5%;
+  transition: 3s ease;
+}
+
+details[open]{
+  animation-name: fadein;
+  animation-duration: 1s;
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+iframe {
+  width: 396px;
+  height: 486px;
+}
+
+summary {
+  font-size: 36px;
+  cursor: pointer;
+}

@@ -22,3 +22,11 @@
 .container {
   display: flex;
 }
+.p-inputgroup {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.addon {
+  padding: 15px;
+}

@@ -8,20 +8,7 @@ import ordersService from '../../services/ordersService';
 
 class PageMain extends React.PureComponent  {
     state = {
-        dailyOrders: [
-            /*{ time: '9:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
-            { time: '10:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
-            { time: '11:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
-            { time: '12:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
-            { time: '13:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
-            { time: '14:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
-            { time: '15:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
-            { time: '16:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
-            { time: '17:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
-            { time: '18:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
-            { time: '19:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},
-            { time: '20:00', services: 'Маникюр', master: 'Мариванна', status: 'Запись'},*/
-        ],
+        dailyOrders: [],
         customOrders: [],
         randomOrders: [],
         selectedOrders: [],
@@ -29,20 +16,14 @@ class PageMain extends React.PureComponent  {
     };
 
     async componentDidMount() {
-        let orders = await ordersService.getOrders().catch(e => console.log(e));
-        orders.daily = this.processTime(orders.daily);
-        this.setState({
-            dailyOrders: orders.daily,
-            customOrders: orders.custom,
-            randomOrders: orders.random,
-        });
+        this.fetchOrders()
     }
 
     componentWillUnmount() {
     }
 
-    processTime = (arr) => {
-        return arr.map( el => ({...el, time: new Date(el.time * 1000).toLocaleTimeString()}))
+    processDaily = (arr) => {
+        return arr.map( el => ({...el, time: new Date(el.time * 1000).toLocaleTimeString(), type: 'daily'}))
     };
 
     newOrder = () => {
@@ -54,6 +35,43 @@ class PageMain extends React.PureComponent  {
     addOrder = () => {
 
     };
+
+    refreshOrders = async () => {
+        this.fetchOrders()
+    };
+
+    fetchOrders = async () => {
+        let orders = await ordersService.getOrders().catch(e => console.log(e));
+        orders.daily = this.processDaily(orders.daily);
+        this.setState({
+            dailyOrders: orders.daily,
+            customOrders: orders.custom,
+            randomOrders: orders.random,
+            selectedOrders: [],
+        });
+    };
+    toFree = async () => {
+        let arr = [...this.state.selectedOrders];
+        let update = await ordersService.updateOrderStatus(arr, 'free').catch(e => console.log(e));
+        if (update.success){
+            this.fetchOrders()
+        }
+    };
+    toBook = async () => {
+        let arr = [...this.state.selectedOrders];
+        let update = await ordersService.updateOrderStatus(arr, 'book').catch(e => console.log(e));
+        if (update.success){
+            this.fetchOrders()
+        }
+    };
+    toClos = async () => {
+        let arr = [...this.state.selectedOrders];
+        let update = await ordersService.updateOrderStatus(arr, 'clos').catch(e => console.log(e));
+        if (update.success){
+            this.fetchOrders();
+        }
+    };
+
     render(){
         const footer = (
             <div>
@@ -72,11 +90,22 @@ class PageMain extends React.PureComponent  {
                     <Toolbar>
                         <div className="p-toolbar-group-left">
                             <Button label="Новая запись" icon="pi pi-plus" style={{marginRight:'.25em'}} onClick={this.newOrder} />
+                            <Button label="Обновить записи" icon="pi pi-refresh" style={{marginRight:'.25em'}} onClick={this.refreshOrders} />
                             <i className="pi pi-bars p-toolbar-separator" style={{marginRight:'.25em'}} />
                             <span style={{verticalAlign: 'middle', marginRight:'.25em', fontSize: '18px'}}>Изменить состояние записи</span>
-                            <Button disabled={this.state.selectedOrders.length === 0 } tooltipOptions={{position: 'top'}} tooltip={'Свободна'} icon="pi pi-check" style={{marginRight:'.25em'}}  />
-                            <Button disabled={this.state.selectedOrders.length === 0 } tooltipOptions={{position: 'top'}} tooltip={'Запись'} icon="pi pi-check" style={{marginRight:'.25em'}} className="p-button-warning" />
-                            <Button disabled={this.state.selectedOrders.length === 0 } tooltipOptions={{position: 'top'}} tooltip={'Закрыто'} icon="pi pi-check" style={{marginRight:'.25em'}} className="p-button-success" />
+                            <Button disabled={this.state.selectedOrders.length === 0 }
+                                    tooltipOptions={{position: 'top'}} tooltip={'Свободна'} icon="pi pi-check" style={{marginRight:'.25em'}}
+                                    onClick={this.toFree}/>
+                            <Button disabled={this.state.selectedOrders.length === 0 }
+                                    tooltipOptions={{position: 'top'}} tooltip={'Запись'} icon="pi pi-check" style={{marginRight:'.25em'}}
+                                    className="p-button-warning"
+                                    onClick={this.toBook}
+                            />
+                            <Button disabled={this.state.selectedOrders.length === 0 }
+                                    tooltipOptions={{position: 'top'}} tooltip={'Закрыто'} icon="pi pi-check" style={{marginRight:'.25em'}}
+                                    className="p-button-success"
+                                    onClick={this.toClos}
+                            />
                         </div>
                         <div className="p-toolbar-group-right">
                             <Button icon="pi pi-search" style={{marginRight:'.25em'}} />

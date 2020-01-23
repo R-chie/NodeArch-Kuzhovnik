@@ -7,8 +7,8 @@ const cors = require('cors');
 const passport = require('passport');
 const JwtService = require('./services/jwt.service');
 
-const indexRouter = require('./routes/index');
 const v1Router = require('./routes/v1/router');
+const indexRouter = require('./routes/index');
 
 const app = express();
 
@@ -25,9 +25,9 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/v1', v1Router);
 app.use('/', indexRouter);
 
-app.use('/v1', v1Router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

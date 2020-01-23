@@ -59,7 +59,14 @@ const Service = DbService.define('service', {
     },
     master_id : {
         type: Sequelize.INTEGER
+    },
+    page_id : {
+        type: Sequelize.INTEGER
+    },
+    price : {
+        type: Sequelize.DOUBLE
     }
+
 });
 
 const Daily = DbService.define('daily_order', {
@@ -107,8 +114,23 @@ const Random = DbService.define('random_order', {
     }
 });
 
+const Page = DbService.define('page', {
+    page_name : {
+        type : Sequelize.STRING
+    },
+    page_title : {
+        type : Sequelize.STRING
+    },
+    page_md : {
+        type : Sequelize.STRING
+    },
+    page_html : {
+        type : Sequelize.STRING
+    },
+});
+
 const Models = {
-    User, Token, Master, Service, Daily, Custom, Random
+    User, Token, Master, Service, Daily, Custom, Random, Page
 };
 
 DbService.sync().then(result => console.log('sync success ' + result.config.database))
