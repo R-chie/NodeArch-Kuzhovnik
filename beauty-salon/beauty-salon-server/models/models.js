@@ -124,6 +124,9 @@ const Page = DbService.define('page', {
     page_md : {
         type : Sequelize.STRING
     },
+    page_mk : {
+        type : Sequelize.STRING
+    },
     page_html : {
         type : Sequelize.STRING
     },

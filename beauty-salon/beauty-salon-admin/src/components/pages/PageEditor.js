@@ -180,6 +180,19 @@ class PageEditor extends React.PureComponent  {
                                             <Button icon="pi pi-times" className="p-button-danger" onClick={this.restoreMd}/>
                                         </div>
                                     </div>
+
+                                    <div className="p-inputgroup">
+                                        <div>
+                                            <span className={'addon'}> MK content </span>
+                                        </div>
+                                        <div>
+                                            <Button icon="pi pi-check" className="p-button-success" onClick={this.save}/>
+                                            <InputText value={this.state.selectedPage[0].page_mk} onChange={(e) => this.setState({
+                                                selectedPage:[{...this.state.selectedPage[0], page_mk: e.target.value}]
+                                            })}/>
+                                            <Button icon="pi pi-times" className="p-button-danger" onClick={this.restoreMd}/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -42,6 +42,7 @@ function createPageHeader(page){
                 page_md: storedPage.page_md,
                 page_title: storedPage.page_title,
                 page_html: storedPage.page_html,
+                page_mk: storedPage.page_mk,
             };
             return resolve(pageObj)
         } else {
