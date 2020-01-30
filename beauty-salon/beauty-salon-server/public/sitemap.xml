@@ -1,0 +1,25 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+        
+        <url>
+            <loc>https://ourbestsite.com/main</loc>
+            <changefreq>weekly</changefreq>
+            <priority>0.8</priority>
+            <lastmod>2020-01-30T10:17:58.000Z</lastmod>
+        </url>    
+    
+        <url>
+            <loc>https://ourbestsite.com/strijka-m</loc>
+            <changefreq>weekly</changefreq>
+            <priority>0.8</priority>
+            <lastmod>2020-01-30T11:33:42.000Z</lastmod>
+        </url>    
+    
+        <url>
+            <loc>https://ourbestsite.com/manik</loc>
+            <changefreq>weekly</changefreq>
+            <priority>0.8</priority>
+            <lastmod>2020-01-30T00:00:00.000Z</lastmod>
+        </url>    
+    
+</urlset>
+    
