@@ -4,7 +4,9 @@ import {Button} from "primereact/button";
 import {Toolbar} from "primereact/toolbar";
 import {Dialog} from "primereact/dialog";
 import {InputText} from "primereact/inputtext";
+import {FileUpload} from "primereact/fileupload";
 import PagesService from "../../services/pagesService";
+import C from '../../constants';
 
 class PageEditor extends React.PureComponent  {
     state = {
@@ -35,12 +37,13 @@ class PageEditor extends React.PureComponent  {
         // fetch
         let editedPage = this.state.selectedPage[0];
         console.log(editedPage);
+        editedPage = {...editedPage, last_modified: new Date()};
         if (editedPage.id !== 999){
-            console.log('update...')
+            console.log('update...');
             await PagesService.updatePage(editedPage).catch(e => console.log(e));
         } else {
             // create new
-            console.log('create...')
+            console.log('create...');
             await PagesService.createPage(editedPage).catch(e => console.log(e));
         }
 
@@ -76,6 +79,14 @@ class PageEditor extends React.PureComponent  {
         this.setState({selectedPage:[{...this.state.selectedPage[0], page_md: def.page_md}]})
     };
 
+    onUploadFileCancel = () => {};
+    onUploadFileSelect = () => {};
+    onUploadFileClear = () => {};
+    onUploadFileSuccess = () => {};
+    onUploadFileError = () => {};
+    onUploadFileProgress = () => {};
+    onUploadFilesetHeaders = () => {};
+
     render(){
         const footer = (
             <div>
@@ -94,6 +105,25 @@ class PageEditor extends React.PureComponent  {
                     <Toolbar>
                         <div className="p-toolbar-group-left">
                             <Button label="Добавить страницу услуги" icon="pi pi-plus" style={{marginRight:'.25em'}} onClick={this.newServicePage} />
+                            <div style={{ height: 0}}>
+                                <FileUpload
+                                    style={{borderLeft: '1px solid rgba(0, 0, 0, 0.15)', borderRight: '1px solid rgba(0, 0, 0, 0.15)'}}
+                                    multiple={true}
+                                    name="beauty_salon_bg"
+                                    chooseLabel='Добавить фон сайта .png'
+                                    uploadLabel='Загрузить'
+                                    cancelLabel={'Отменить'}
+                                    url={C.HOST_URL + '/v1/uploadBg'}
+                                    mode="basic"
+                                    onFileCancel={this.onUploadFileCancel}
+                                    onSelect={this.onUploadFileSelect}
+                                    onClear={this.onUploadFileClear}
+                                    onUpload={this.onUploadFileSuccess}
+                                    onError={this.onUploadFileError}
+                                    onProgress={this.onUploadFileProgress}
+                                    onBeforeSend={this.onUploadFilesetHeaders}
+                                />
+                            </div>
                         </div>
                         <div className="p-toolbar-group-right">
                             <Button icon="pi pi-search" style={{marginRight:'.25em'}} />

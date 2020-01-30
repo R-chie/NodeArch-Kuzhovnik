@@ -30,3 +30,6 @@
 .addon {
   padding: 15px;
 }
+.p-toolbar-group-left {
+  display: flex;
+}

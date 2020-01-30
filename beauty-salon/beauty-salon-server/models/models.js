@@ -130,6 +130,9 @@ const Page = DbService.define('page', {
     page_html : {
         type : Sequelize.STRING
     },
+    last_modified : {
+        type: Sequelize.DATE
+    }
 });
 
 const Models = {
