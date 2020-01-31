@@ -46,6 +46,7 @@ router.post('/login',
 
 router.options('/uploadBg', cors(CORSOptions));
 router.post('/uploadBg',
+    passport.authenticate('jwt', {session: false}),
     upload.single('beauty_salon_bg'),
     async (req, res) => {
         try {
