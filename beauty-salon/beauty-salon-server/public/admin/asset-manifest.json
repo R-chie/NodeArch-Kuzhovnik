@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.9047ba79.chunk.css",
+    "main.js": "/static/js/main.c6074b79.chunk.js",
+    "main.js.map": "/static/js/main.c6074b79.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.63a9c084.js",
+    "runtime-main.js.map": "/static/js/runtime-main.63a9c084.js.map",
+    "static/css/2.51f75b8a.chunk.css": "/static/css/2.51f75b8a.chunk.css",
+    "static/js/2.4a16d1a1.chunk.js": "/static/js/2.4a16d1a1.chunk.js",
+    "static/js/2.4a16d1a1.chunk.js.map": "/static/js/2.4a16d1a1.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.9cbdf5c32ef5be973b9ff9a5dfe346a9.js": "/precache-manifest.9cbdf5c32ef5be973b9ff9a5dfe346a9.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.51f75b8a.chunk.css.map": "/static/css/2.51f75b8a.chunk.css.map",
+    "static/css/main.9047ba79.chunk.css.map": "/static/css/main.9047ba79.chunk.css.map",
+    "static/media/primereact.min.css": "/static/media/line.567f5738.gif",
+    "static/media/theme.css": "/static/media/open-sans-v15-latin-regular.cffb686d.woff2",
+    "static/media/primeicons.css": "/static/media/primeicons.e5e0e944.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.63a9c084.js",
+    "static/css/2.51f75b8a.chunk.css",
+    "static/js/2.4a16d1a1.chunk.js",
+    "static/css/main.9047ba79.chunk.css",
+    "static/js/main.c6074b79.chunk.js"
+  ]
+}

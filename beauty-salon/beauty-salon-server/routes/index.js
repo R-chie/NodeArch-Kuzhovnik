@@ -1,9 +1,14 @@
 var express = require('express');
 var router = express.Router();
+const path = require('path');
 const { createPageHeader, createMainBody } = require('../utils');
 const querystring = require('querystring');
 
 /* GET home page. */
+router.get('/admin', function(req, res, next) {
+    res.sendFile(path.resolve("./public/admin/index.html"));
+
+});
 router.get('/*', async function(req, res, next) {
     const originalUrlDecoded = querystring.unescape(req.originalUrl);
     console.log(originalUrlDecoded);
