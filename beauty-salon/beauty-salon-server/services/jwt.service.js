@@ -24,15 +24,6 @@ class JwtService {
         })
     }
 
-    static deleteToken(decoded){
-        return new Promise(async (resolve, reject) => {
-            //let updateQuery = `UPDATE tokens SET jwt = 'logout' WHERE jwt_id = '${decoded.payload.userId}'`;
-            let updateQuery = `UPDATE tokens SET jwt = NULL WHERE jwt_id = '${decoded.payload.userId}'`;
-            let updateResult = await DbService.sendQuery(updateQuery).catch(e => console.log('--->', e));
-            updateResult.changedRows === 1 ? resolve({success: true}) : reject({success: false})
-        })
-    }
-
     static extractJwtFromHeader(header){
         return new Promise(async resolve => {
             resolve(header.slice(7))

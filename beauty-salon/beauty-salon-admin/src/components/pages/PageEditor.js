@@ -85,7 +85,14 @@ class PageEditor extends React.PureComponent  {
     onUploadFileSuccess = () => {};
     onUploadFileError = () => {};
     onUploadFileProgress = () => {};
-    onUploadFilesetHeaders = () => {};
+    onUploadFilesetHeaders = (e) => {
+        try {
+            let token = localStorage.getItem(C.TOKEN_NAME);
+            e.xhr.setRequestHeader('Authorization', token);
+        } catch (e) {
+
+        }
+    };
 
     render(){
         const footer = (
