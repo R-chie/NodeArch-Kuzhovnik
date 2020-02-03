@@ -59,7 +59,7 @@ function createMainBody(){
     return new Promise(async (resolve, reject) => {
         let services = await DataService.getServices().catch(e => console.log(e))
         console.log('SELECTED SERVICES ------>', services);
-        let lis = services.map ((s, index) =>`<li> <a href="http://localhost:8481/main/services${s.page_name}">${s.name}  ${s.price} BYN</a></li>`);
+        let lis = services.map ((s, index) =>`<li> <a href="http://178.172.195.18:8481/main/services${s.page_name}">${s.name}  ${s.price} BYN</a></li>`);
         let body = `
             <h2>У нас самые низкие цены в городе </h2>
             <p>Наши услуги: </p>
