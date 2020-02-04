@@ -45,3 +45,6 @@ summary {
   font-size: 36px;
   cursor: pointer;
 }
+li {
+  padding: 10px;
+}
