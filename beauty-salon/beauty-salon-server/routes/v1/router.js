@@ -59,6 +59,36 @@ router.post('/uploadBg',
         }
     });
 
+router.options('/services', cors(CORSOptions));
+router.get('/services',
+    passport.authenticate('jwt', {session: false}),
+    async (req, res) => {
+        try {
+            logLineAsync(logFN,"get services...");
+            let services = await DataService.getServices().catch(e => console.log(e));
+            res.json(services)
+        } catch (e) {
+            logLineAsync(logFN,e);
+            res.status(500).end()
+        }
+    });
+
+router.options('/services/add', cors(CORSOptions));
+router.post('/services/add',
+
+    passport.authenticate('jwt', {session: false}),
+    async (req, res) => {
+        try {
+            logLineAsync(logFN,"add service...");
+            let service = await DataService.addService(req.body.newService).catch(e => console.log(e));
+            if (service){
+                res.json({success: true})
+            }
+        } catch (e) {
+            logLineAsync(logFN,e);
+            res.status(500).end()
+        }
+    });
 
 router.options('/orders', cors(CORSOptions));
 router.get('/orders',

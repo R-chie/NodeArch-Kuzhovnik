@@ -63,7 +63,7 @@ function createMainBody(){
         let body = `
             <h2>У нас самые низкие цены в городе </h2>
             <p>Наши услуги: </p>
-            <ul>${lis}</ul>`
+            <ul>${lis.join('')}</ul>`
         console.log(body)
         return resolve(body);
     })

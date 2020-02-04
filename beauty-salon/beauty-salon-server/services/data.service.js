@@ -128,6 +128,35 @@ class DataService {
         })
     }
 
+    static async addService(newService){
+        return new Promise( async (resolve, reject) => {
+            console.log('add new ->>>>>', newService);
+            let page = await Models.Page.findOne({
+                raw: true,
+                where : {
+                    page_name: newService.page_name
+                }
+            });
+            if (page){
+                let service = {
+                    name: newService.name,
+                    code: newService.code,
+                    desc: newService.desc,
+                    master_id: 1,
+                    page_id: page.id,
+                    price: newService.price
+                };
+                let n = Models.Service.create(service).catch(e => console.log(e));
+                if (n){
+                    return resolve(true)
+                } else {
+                    return resolve(false)
+                }
+            } else  return resolve(false)
+
+        })
+    }
+
     static getPages(){
         return new Promise( async (resolve, reject) => {
             let p = Models.Page.findAll({raw: true}).catch(e => reject(e));

@@ -4,11 +4,12 @@ import {Column} from "primereact/column";
 import {Toolbar} from "primereact/toolbar";
 import {Button} from "primereact/button";
 import {Dialog} from "primereact/dialog";
+import ordersService from "../../services/ordersService";
+import {InputText} from "primereact/inputtext";
 
 class PageOffice extends React.PureComponent  {
     state = {
         masters: [
-            {name: 'Мариванна', services: 'Маникюр, педикюр', count: 12}
         ],
         services: [
             {name: 'Маникюр', price: '35p', desc: 'Маникюр высший класс'},
@@ -18,9 +19,15 @@ class PageOffice extends React.PureComponent  {
         selectedServices: [],
         newMasterVisible: false,
         newServiceVisible: false,
+        serviceName : '',
+        serviceDesc: '',
+        serviceMaster: '',
+        serviceUrl: '',
+        servicePrice: '',
     };
 
     async componentDidMount() {
+        this.fetchServices();
     }
 
     componentWillUnmount() {
@@ -46,7 +53,27 @@ class PageOffice extends React.PureComponent  {
     };
     cancel = () => {
         this.setState({newServiceVisible: false, newMasterVisible: false})
-    }
+    };
+    fetchServices = async () => {
+        let services = await ordersService.getServices().catch(e => console.log(e));
+        this.setState({
+            services
+        });
+    };
+    addService = async () => {
+        let newService = {
+            code: this.state.serviceName.slice(1),
+            desc: this.state.serviceDesc,
+            master: this.state.serviceMaster,
+            name: this.state.serviceName,
+            page_name: this.state.serviceUrl,
+            price: this.state.servicePrice,
+        };
+        let qr = await ordersService.addService(newService).catch(e => console.log(e));
+        if (qr.success){
+            this.setState({newServiceVisible: false}, this.fetchServices)
+        }
+    };
 
     render(){
         const footerMaster = (
@@ -67,12 +94,40 @@ class PageOffice extends React.PureComponent  {
                         footer={footerMaster}
                         visible={this.state.newMasterVisible}
                         style={{width: '50vw', top: '200px'}}
-                        modal={true} onHide={() => this.setState({newMasterVisible: false})}/>
+                        modal={true} onHide={() => this.setState({newMasterVisible: false})}>
+                </Dialog>
                 <Dialog header="Добавить новую услугу"
                         footer={footerService}
                         visible={this.state.newServiceVisible}
-                        style={{width: '50vw', top: '200px'}}
-                        modal={true} onHide={() => this.setState({newServiceVisible: false})}/>
+                        style={{width: '50vw', top: '300px'}}
+                        modal={true} onHide={() => this.setState({newServiceVisible: false})}>
+                    <div style={{display: 'flex', flexDirection: 'column'}}>
+                        <label htmlFor={'name'} style={{margin : '5px'}}>Название услуги</label>
+                        <InputText
+                            id='name'
+                            onChange={(e) => this.setState({serviceName: e.target.value})}/>
+
+                        <label htmlFor={'name'} style={{margin : '5px'}}>Описание</label>
+                        <InputText
+                            id='desc'
+                            onChange={(e) => this.setState({serviceDesc: e.target.value})}/>
+
+                        <label htmlFor={'name'} style={{margin : '5px'}}>Мастер</label>
+                        <InputText
+                            id='master'
+                            onChange={(e) => this.setState({serviceMaster: e.target.value})}/>
+
+                        <label htmlFor={'name'} style={{margin : '5px'}}>Url страницы</label>
+                        <InputText
+                            id='urlpage'
+                            onChange={(e) => this.setState({serviceUrl: e.target.value})}/>
+
+                        <label htmlFor={'name'} style={{margin : '5px'}}>Стоимость</label>
+                        <InputText
+                            id='price'
+                            onChange={(e) => this.setState({servicePrice: e.target.value})}/>
+                    </div>
+                </Dialog>
                 <div className={'p-grid p-col-12 p-lg-12 p-dir-col'}>
                     <Toolbar>
                         <div className="p-toolbar-group-left">
