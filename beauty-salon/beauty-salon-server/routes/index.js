@@ -5,9 +5,9 @@ const { createPageHeader, createMainBody } = require('../utils');
 const querystring = require('querystring');
 
 /* GET home page. */
-//router.get('/admin', function(req, res, next) {
-    //res.render(path.resolve("/public/index.html"));
-//});
+router.get('/admin', function(req, res, next) {
+    res.render(path.resolve("/public/index.html"));
+});
 router.get('/*', async function(req, res, next) {
     const originalUrlDecoded = querystring.unescape(req.originalUrl);
     console.log(originalUrlDecoded);
